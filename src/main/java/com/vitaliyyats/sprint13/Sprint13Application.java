@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class Sprint13Application implements CommandLineRunner {
@@ -34,9 +35,59 @@ public class Sprint13Application implements CommandLineRunner {
 
     @Transactional
     public void run(String... arg) throws Exception {
-
+        addStudents();
+        addMentor();
+        createMarathonAndSprints();
     }
 
-    
+    private void addStudents() {
+        User st1 = new User();
+        st1.setFirstName("Vitaliy");
+        st1.setLastName("Yatsunskyi");
+        st1.setEmail("vitaliyyats@gmail.com");
+        st1.setRole(User.Role.TRAINEE);
+        st1.setPassword("pass123");
+        userService.createOrUpdateUser(st1);
+        System.out.println("Student " + st1 + " added");
+
+        User st2 = new User();
+        st2.setFirstName("Ivan");
+        st2.setLastName("Petriv");
+        st2.setEmail("ivapetr@gmail.com");
+        st2.setRole(User.Role.TRAINEE);
+        st2.setPassword("newpass678");
+        userService.createOrUpdateUser(st2);
+        System.out.println("Student " + st2 + " added");
+    }
+
+    private void addMentor() {
+        User mentor = new User();
+        mentor.setFirstName("Yaroslav");
+        mentor.setLastName("Harasym");
+        mentor.setEmail("yarhar@gmail.com");
+        mentor.setRole(User.Role.MENTOR);
+        mentor.setPassword("strongpass999");
+        userService.createOrUpdateUser(mentor);
+        System.out.println("Mentor " + mentor + " added");
+    }
+
+    private void createMarathonAndSprints() {
+        Marathon marathon = new Marathon();
+        marathon.setTitle("Java Online Marathon");
+        marathon = marathonService.createOrUpdate(marathon);
+
+        Sprint sp1 = new Sprint();
+        sp1.setTitle("Introduction To Spring. IoC");
+        sp1.setStart(LocalDate.of(2020, 07, 20));
+        sp1.setFinish(LocalDate.of(2020, 07, 22));
+        sprintService.addSprintToMarathon(sp1, marathon);
+
+        Sprint sp2 = new Sprint();
+        sp2.setTitle("ORM. Hibernate with Spring");
+        sp2.setStart(LocalDate.of(2020, 07, 23));
+        sp2.setFinish(LocalDate.of(2020, 07, 25));
+        sp2.setMarathon(marathon);
+        sprintService.addSprintToMarathon(sp2, marathon);
+    }
 
 }
