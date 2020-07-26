@@ -117,6 +117,8 @@ public class Sprint13Application implements CommandLineRunner {
 
         progressService.addTaskForStudent(task3, userService.getUserById(2l));
         progressService.addTaskForStudent(task4, userService.getUserById(2l));
+
+        progressService.setStatus(Progress.TaskStatus.PASS, progressService.getProgressById(1l));
     }
 
 
