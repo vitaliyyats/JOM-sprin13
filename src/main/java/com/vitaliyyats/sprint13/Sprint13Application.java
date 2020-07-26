@@ -38,6 +38,7 @@ public class Sprint13Application implements CommandLineRunner {
         addStudents();
         addMentor();
         createMarathonAndSprints();
+        createTasksAndProgress();
     }
 
     private void addStudents() {
@@ -88,6 +89,36 @@ public class Sprint13Application implements CommandLineRunner {
         sp2.setFinish(LocalDate.of(2020, 07, 25));
         sp2.setMarathon(marathon);
         sprintService.addSprintToMarathon(sp2, marathon);
+
+        userService.addUserToMarathon(userService.getUserById(1l), marathon);
+        userService.addUserToMarathon(userService.getUserById(2l), marathon);
+        userService.addUserToMarathon(userService.getUserById(3l), marathon);
     }
+
+    private void createTasksAndProgress() {
+        Task task1 = new Task();
+        task1.setTitle("task1");
+        task1 = taskService.addTaskToSprint(task1, sprintService.getSprintById(1l));
+
+        Task task2 = new Task();
+        task2.setTitle("task2");
+        task2 = taskService.addTaskToSprint(task2, sprintService.getSprintById(1l));
+
+        Task task3 = new Task();
+        task3.setTitle("task3");
+        task3 = taskService.addTaskToSprint(task3, sprintService.getSprintById(2l));
+
+        Task task4 = new Task();
+        task4.setTitle("task4");
+        task4 = taskService.addTaskToSprint(task4, sprintService.getSprintById(2l));
+
+        progressService.addTaskForStudent(task1, userService.getUserById(1l));
+        progressService.addTaskForStudent(task2, userService.getUserById(1l));
+
+        progressService.addTaskForStudent(task3, userService.getUserById(2l));
+        progressService.addTaskForStudent(task4, userService.getUserById(2l));
+    }
+
+
 
 }
